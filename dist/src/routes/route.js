@@ -8,32 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 const express_1 = require("express");
 const rPublisher_1 = require("../rabbitController/rPublisher");
+const conn = require("./../index");
 const router = express_1.Router();
-router.get("/hello", (req, res) => {
-    res.send("Hello World");
-});
 router.post("/msg", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { queuename, data } = req.body;
-    callback_api_1.default.connect("amqp://localhost", (err, conn) => {
-        if (err) {
-            throw err;
+    conn.connection.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err1) {
+            throw err1;
         }
-        else {
-            conn.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
-                yield rPublisher_1.publishToQueue(channel, queuename, data);
-                res.statusCode = 200;
-                res.data = { "message-sent": true };
-                next();
-            }));
-        }
-    });
+        yield rPublisher_1.publishToQueue(channel, queuename, data);
+        res.status(200).send({ message: "sent" });
+        next();
+    }));
 }));
 exports.default = router;
 //# sourceMappingURL=route.js.map

@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 callback_api_1.default.connect("amqp://localhost", (err, conn) => {
-    conn.createChannel((err, ch) => {
-        if (err) {
-            throw err;
+    conn.createChannel((err1, ch) => {
+        if (err1) {
+            throw err1;
         }
         ch.assertQueue("user-messages");
         ch.consume("user-messages", (msg) => {
