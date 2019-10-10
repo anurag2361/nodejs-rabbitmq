@@ -1,0 +1,21 @@
+{
+  "name": "node-rabbitmq",
+  "version": "1.0.0",
+  "description": "Sample NodeJS RabbitMQ application.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "rm -rf dist/ && tsc && node dist/src/index.js"
+  },
+  "author": "Anurag Sharma",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/amqplib": "^0.5.13",
+    "@types/express": "^4.17.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "express": "^4.17.1"
+  }
+}
