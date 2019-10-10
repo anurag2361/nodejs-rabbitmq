@@ -13,6 +13,7 @@ amqp.connect("amqp://localhost", (err, conn: amqp.Connection) => {
     if (err) {
         throw err;
     } else {
+        console.log("RabbitMQ Connected");
         module.exports.connection = conn;
     }
 });

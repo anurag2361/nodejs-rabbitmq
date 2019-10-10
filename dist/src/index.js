@@ -15,6 +15,7 @@ callback_api_1.default.connect("amqp://localhost", (err, conn) => {
         throw err;
     }
     else {
+        console.log("RabbitMQ Connected");
         module.exports.connection = conn;
     }
 });
