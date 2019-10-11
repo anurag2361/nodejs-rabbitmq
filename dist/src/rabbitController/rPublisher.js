@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.publishToQueue = (channel, queueName, data) => __awaiter(void 0, void 0, void 0, function* () {
-    channel.assertQueue(queueName);
+    channel.assertQueue(queueName, { durable: true, exclusive: false, autoDelete: true, arguments: { "x-expires": 1800000 } });
     channel.sendToQueue(queueName, Buffer.from(data));
     process.on("exit", (code) => {
         channel.close();

@@ -9,7 +9,8 @@ callback_api_1.default.connect("amqp://localhost", (err, conn) => {
         if (err1) {
             throw err1;
         }
-        ch.assertQueue("user-messages");
+        ch.assertQueue("user-messages", { durable: true, exclusive: false, autoDelete: true, arguments: { "x-expires": 1800000 } });
+        ch.prefetch(2);
         ch.consume("user-messages", (msg) => {
             console.log(".....");
             setTimeout(() => {
