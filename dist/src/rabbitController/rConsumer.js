@@ -14,8 +14,8 @@ callback_api_1.default.connect("amqp://localhost", (err, conn) => {
             console.log(".....");
             setTimeout(() => {
                 console.log("Message:", msg.content.toString());
-            }, 4000);
-        }, { noAck: true });
+            }, 2000);
+        }, { noAck: false });
     });
 });
 //# sourceMappingURL=rConsumer.js.map
