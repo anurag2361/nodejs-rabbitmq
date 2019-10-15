@@ -1,6 +1,6 @@
 import amqp from "amqplib/callback_api";    // importing rabbitMQ library
-import express from "express";
-const app = express();
+import express, { Express } from "express";
+const app: Express = express();
 import router from "./routes/route";
 const port: number = 9000;
 

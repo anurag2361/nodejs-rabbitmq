@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 const args = process.argv.slice(2);
 if (args.length === 0) {
-    console.log("Usage: receive_logs_topic.js <facility>.<severity>");
+    console.log("Usage: rTopic.js <key>");
     process.exit(1);
 }
 callback_api_1.default.connect("amqp://localhost", (err, conn) => {
