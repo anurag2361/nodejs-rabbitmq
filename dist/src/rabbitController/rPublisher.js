@@ -17,4 +17,40 @@ exports.publishToQueue = (channel, queueName, data) => __awaiter(void 0, void 0,
         console.log(`Closing rabbitmq channel`);
     });
 });
+exports.workerFunction = (channel, queuename, data) => __awaiter(void 0, void 0, void 0, function* () {
+    channel.assertQueue(queuename, { durable: true });
+    channel.sendToQueue(queuename, Buffer.from(data), { persistent: true });
+    console.log("Sent '%s'", data);
+    process.on("exit", (code) => {
+        channel.close();
+        console.log(`Closing rabbitmq channel`);
+    });
+});
+exports.exchangeFunction = (channel, exchange, data) => __awaiter(void 0, void 0, void 0, function* () {
+    channel.assertExchange(exchange, "fanout", { durable: false });
+    channel.publish(exchange, "", Buffer.from(data));
+    console.log("Sent %s", data);
+    process.on("exit", (code) => {
+        channel.close();
+        console.log(`Closing rabbitmq channel`);
+    });
+});
+exports.directExchange = (channel, exchange, severity, data) => __awaiter(void 0, void 0, void 0, function* () {
+    channel.assertExchange(exchange, "direct", { durable: false });
+    channel.publish(exchange, severity, Buffer.from(data));
+    console.log("Sent %s: '%s'", severity, data);
+    process.on("exit", (code) => {
+        channel.close();
+        console.log(`Closing rabbitmq channel`);
+    });
+});
+exports.topicExchange = (channel, exchange, key, message) => __awaiter(void 0, void 0, void 0, function* () {
+    channel.assertExchange(exchange, "topic", { durable: false });
+    channel.publish(exchange, key, Buffer.from(message));
+    console.log("Sent %s: '%s'", key, message);
+    process.on("exit", (code) => {
+        channel.close();
+        console.log(`Closing rabbitmq channel`);
+    });
+});
 //# sourceMappingURL=rPublisher.js.map

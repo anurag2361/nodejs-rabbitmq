@@ -24,5 +24,46 @@ router.post("/msg", (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         next();
     }));
 }));
+router.post("/worker", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const message = req.body.message;
+    const queuename = req.body.queuename;
+    conn.connection.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err1) {
+            throw err1;
+        }
+        yield rPublisher_1.workerFunction(channel, queuename, message);
+        res.status(200).send({ message: "Sent" });
+    }));
+}));
+router.post("/exchange", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { message, exchange } = req.body;
+    conn.connection.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err1) {
+            throw err1;
+        }
+        yield rPublisher_1.exchangeFunction(channel, exchange, message);
+        res.status(200).send({ message: "Sent" });
+    }));
+}));
+router.post("/routing", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { message, exchange, severity } = req.body;
+    conn.connection.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err1) {
+            throw err1;
+        }
+        yield rPublisher_1.directExchange(channel, exchange, severity, message);
+        res.status(200).send({ message: "Sent" });
+    }));
+}));
+router.post("/topic", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { message, exchange, key } = req.body;
+    conn.connection.createChannel((err1, channel) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err1) {
+            throw err1;
+        }
+        yield rPublisher_1.topicExchange(channel, exchange, key, message);
+        res.status(200).send({ message: "Sent" });
+    }));
+}));
 exports.default = router;
 //# sourceMappingURL=route.js.map
